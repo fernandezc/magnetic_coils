@@ -380,17 +380,17 @@ def fivecoils(radius, amperes, var):
 # ===============================================================================
 if __name__ == '__main__':
 
-    FIT =  True # False
+    FIT = True  # False
 
     # select the type of coil arrangements
     ARRANGEMENTS = [
         # (name, callable, nturns in the center coil, [,...])
         ("HELMHOTZ", helmholtzcoil, [
             441., 0.5]),
-         ("MAXWELL", maxwellcoil, [
-             320., (3. / 7.) ** .5,
-             (4. / 7.) ** .5,
-             49. / 64.]),
+        ("MAXWELL", maxwellcoil, [
+            320., (3. / 7.) ** .5,
+                  (4. / 7.) ** .5,
+                  49. / 64.]),
         ("FIVE-COILS", fivecoils, [
             152.,
             186.3 / 300.,
@@ -411,7 +411,7 @@ if __name__ == '__main__':
 
     wire_diameter = 2.0 * np.sqrt(SECTION / pi)
 
-    n = 101 # must be odd
+    n = 101  # must be odd
 
     # make a grid to sample the space around the coils
     z = np.linspace(-2.5 * RADIUS.magnitude, 2.5 * RADIUS.magnitude,
@@ -476,7 +476,7 @@ if __name__ == '__main__':
             dbr = np.gradient(B[:, iz0], dr)
 
             # Cost function:
-            #---------------
+            # ---------------
             # deviation from the goal (minimum gradients
             # and the closest of the field requested
 
@@ -508,7 +508,7 @@ if __name__ == '__main__':
 
         B0 = B[ir0, iz0]
         Bzs.append(B[ir0])
-        Brs.append(B[:,iz0])
+        Brs.append(B[:, iz0])
 
         print("\tCenter field : {:~.2fC} [{:~.1fC}]".format(np.max(B[ir0]),
                                                             np.max(B[ir0]).to(
@@ -525,13 +525,15 @@ if __name__ == '__main__':
         # =====================================================================
         #  plot
         # =====================================================================
-        fig = plt.figure(item + 1, figsize=(5,6))
+        fig = plt.figure(item + 1, figsize=(5, 6))
 
         ax = plt.subplot(212)
         step = int(3 * (n / 100.))
 
-        Q = ax.quiver(Z[::step, ::step].m, R[::step, ::step].m, # xy coordinates
-                Bz[::step, ::step].m, Br[::step, ::step].m, # arrow components
+        Q = ax.quiver(Z[::step, ::step].m, R[::step, ::step].m,
+                      # xy coordinates
+                      Bz[::step, ::step].m, Br[::step, ::step].m,
+                      # arrow components
                       np.log(B[::step, ::step].m),
                       scale_units='xy', angles='xy', scale=1.,
                       pivot='middle', width=0.0015)
@@ -539,7 +541,7 @@ if __name__ == '__main__':
         # Coil draw
 
         narrangements = len(arrangements)
-        nocenter = (narrangements == 1 )  # no center coil
+        nocenter = (narrangements == 1)  # no center coil
 
         S = pi * (wire_diameter / 2.0) ** 2
         L = 0.0
@@ -577,7 +579,8 @@ if __name__ == '__main__':
             print("\t\tDiameter of wire : {:~.2fC}".format(wire_diameter))
             print("\t\tLength of a turn : {:~.2fC}".format(turn_length))
             print(
-            "\t\tTotal wire length in a coil : {:~.2fC}".format(length.to('m')))
+                "\t\tTotal wire length in a coil : {:~.2fC}".format(
+                    length.to('m')))
 
             if nocenter or id > 0:
                 print()
@@ -642,7 +645,7 @@ if __name__ == '__main__':
         ax.clabel(cs, inline=1, fontsize=10)
         ax.set_aspect(1.)
 
-        plt.subplots_adjust(right = .85)
+        plt.subplots_adjust(right=.85)
         fig.savefig("{}.png".format(name.lower()))
 
     # =========================================================================
